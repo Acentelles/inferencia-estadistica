@@ -1,0 +1,734 @@
+\documentclass[10pt]{extarticle}
+%Some packages I commonly use.
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage{titling}
+\usepackage[shortlabels]{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1 in,bottom=1in, left=1 in, right=1 in]{geometry}
+\usepackage{indentfirst} 
+\usepackage{physics}
+
+%A bunch of definitions that make my life easier
+\newcommand{\matlab}{{\sc Matlab} }
+\newcommand{\cvec}[1]{{\mathbf #1}}
+\newcommand{\rvec}[1]{\vec{\mathbf #1}}
+
+\newcommand{\ihat}{\hat{\textbf{\i}}}
+\newcommand{\jhat}{\hat{\textbf{\j}}}
+\newcommand{\khat}{\hat{\textbf{k}}}
+\newcommand{\minor}{{\rm minor}}
+\newcommand{\spn}{{\rm Span}}
+\newcommand{\rem}{{\rm rem}}
+\newcommand{\ran}{{\rm range}}
+\newcommand{\range}{{\rm range}}
+\newcommand{\mdiv}{{\rm div}}
+\newcommand{\proj}{{\rm proj}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\gl}{\mathfrak{g}\mathfrak{l}}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\attn}[1]{\textbf{#1}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{definition}{Definition}
+\newtheorem*{example}{Example}
+\newtheorem*{note}{Note}
+\newtheorem{exercise}{Exercise}
+\newcommand{\bproof}{\bigskip {\bf Proof. }}
+\newcommand{\eproof}{\hfill\qedsymbol}
+\newcommand{\Disp}{\displaystyle}
+\newcommand{\qe}{\hfill\(\bigtriangledown\)}
+\setlength{\columnseprule}{1 pt}
+
+\predate{}
+\postdate{}
+\title{Inferencia Estadistica}
+\author{Alberto Centelles}
+\date{}
+
+\begin{document}
+
+\newtheorem{lemma}{Lema}
+\newtheorem*{lemma*}{Lema}
+\newtheorem*{theorem*}{Teorema}
+
+\maketitle
+
+\section{Conceptos basicos de la Estadistica Matematica}
+
+\textbf{Distribucion teorica o distribucion de poblacion}: Distribucion desconocida F de la variable aleatoria involucrada en un problema de Inferencia Estadistica.
+
+\textbf{Espacio parametrico $\Theta$}: Subconjunto $\Theta$ de $\R^k$
+
+\textbf{Muestra aleatoria}: Observaciones a partir de las cuales se intenta disminuir el desconocimiento de la distribucion teorica F de la variable aleatoria $X$ en estudio.
+
+\textbf{Muestra aleatoria simple}: Muestra obtenida a partir de repeticiones independientes.
+
+Una muestra aleatoria simple, de tamano $n$, de una variable aleatoria $X$ con distribucion teorica $F$, son $n$ variables aleatorias $(X_1, X_2,...,X_n)$, independientes e igualmente distribuidas, con distribucion comun $F$.
+
+Consecuentemente la funcion de distribucion conjunta de una muestra aleatoria simple $(X_1, X_2, ..., X_n)$ correspondiente a una distribucion de la poblacion $F$, es
+\begin{equation*}
+  F(x_1, x_2,..., x_n)=F(x_1)F(x_2)...F(x_n)
+\end{equation*}
+
+\textbf{Distribucion muestral $F_n^*(x)$}: Frecuencia de elementos de la muestra que son menores o iguales que $x$. Puesto que $F(x)=P{X\leq x}$, para cada $x \in \R$, la distribucion asociada a la muestra $(x_1,..., x_n)$ de $X$ se define como
+\begin{equation*}
+  F_n^*(x)=\dfrac{\text{numero de elementos muestrales} \leq x}{n}
+\end{equation*}
+Es siempre una funcion discreta cuya funcion de probabilidad es $p_n^*(x)=\dfrac{j}{n}$.
+
+\textbf{Espacio muestral ($\chi$, $\mathfrak{B}$)}: Conjunto de muestras posibles que pueden obtenerse al seleccionar una muestra aleatoria, de un tamano determinado, de una cierta poblacion.
+
+Se trata siempre de un subconjunto de un espacio euclideo $\R^{mn}$, de manera que podemos considerar en $\chi$ la $\sigma$-algebra restringida de la $\sigma$-algebra de Borel $\mathbb{B}^{mn}$ que representaremos por $\mathfrak{B}$.
+
+\textbf{Estadistico $T$}: Cualquier funcion $T: (\chi, \mathfrak{B}) \rightarrow (\R^k, \mathbb{B}^k)$ del espacio muestral $(\chi, \mathfrak{B})$ en un espacio euclideo $(\R^k, \mathbb{B}^k)$ que sea medible. La dimension $k$ del espacio euclideo imagen se denomina dimension del estadistico.
+
+\textbf{Distribucion en el muestreo de un estadistico $T$}: Distribucion de la variable aleatoria $T(X_1, X_2,..., X_n)$. Es decir, es la medida de probabilidad que induce la distribucion de la muestra, $P$, mediante la funcion $T: (\chi, \mathfrak{B}) \rightarrow (\R^k, \mathbb{B}^k)$.
+
+\newpage
+
+\section{Propiedades de la distribucion muestral}
+
+Expresiones equivalentes de la \textbf{distribucion muestral}:
+\begin{equation*}
+  F_n^*(x)=\dfrac{\text{numero de elementos muestrales} \leq x}{n}
+\end{equation*}
+
+\begin{equation*}
+  F_n^*(x)=
+  \begin{cases}
+    0 \text{ si } x < x_{(1)}                        \\
+    ...                                              \\
+    \dfrac{j}{n} \text{ si } x_{(j)} < x < x_{(j+1)} \\
+    ...                                              \\
+    1 \text{ si } x\geq x_{(n)}
+  \end{cases}
+\end{equation*}
+
+\begin{equation*}
+  F_n^*(x)=\dfrac{1}{n}\sum_{i=1}^n I_{(-\infty,x]}(x_i)
+\end{equation*}
+
+
+$n F_n^*(x)=\sum_{i=1}^n I_{(-\infty,x])}(X_i)$ tiene distribucion binomial $B(n, F(x))$. Es decir,
+\begin{equation*}
+  P\{ F_n^*(x)=\dfrac{k}{n} \} = {n \choose k}F(x)^k[1-F(x)]^{n-k}
+\end{equation*}
+
+\begin{align*}
+  E[F_n^*(x)]=F(x) &  & V(F_n^*(x))=\dfrac{F(x) (1-F(x))}{n}
+\end{align*}
+
+Puesto que $nF_n^*(x)$ es suma de variables aleatorias independientes e igualmente distribuidas, el teorema central del limite permite afirmar que cuando $n$ es grande, la distribucion de $F_n^*(x)$ es aproximadamente $N(F(x), \sqrt{\dfrac{F(x)(1-F(x))}{n}})$
+
+\textbf{Momentos muestrales}: Como $F_n^*$ es una distribucion discreta, los momentos muestrales existen y valen:
+\begin{align*}
+  a_k=\dfrac{1}{n}\sum_{i=1}^n x_i^k &  & b_k=\dfrac{1}{n}\sum_{i=1}^n  (x_i - \overline{x})^k
+\end{align*}
+
+\textbf{Momento de orden k respecto al origen de la distribucion teorica}: $E[a_k]=\dfrac{1}{n} \sum_{i=1}^n E[X_i^k] = \alpha_k$
+
+$V(a_k)=\dfrac{1}{n^2}\sum_{i=1}^n V(X_i^k)=\dfrac{1}{n}\sum_{i=1}^n V(X_1^k)=\dfrac{1}{n}[E[X_1^{2k}] - E[X_i^k]^2]=\dfrac{\alpha_{2k}-\alpha_k^2}{n}=\dfrac{\sigma^2}{n}$
+
+\textbf{Media muestral $\overline{x}$}: $a_1=\dfrac{1}{n}\sum_{i=1}^n x_i$
+
+\textbf{Varianza muestral $s^2$}: $b_2=\dfrac{1}{n}\sum_{i=1}^n  (x_i - \overline{x})^2=\dfrac{1}{n} \sum_{i=1}^n X_i^2 - \overline{X}^2$
+
+$E[s^2]=\dfrac{1}{n} \sum_{i=1}^n E[X_i^2] - E[X^2]=\alpha_2 - \dfrac{\sigma^2}{n} - \mu^2=\dfrac{n-1}{n}\sigma^2$
+
+\textbf{Cuantiles muestrales $c_p$}: Aquellos valores que verifican simultaneamente $F_n^*(c_p)\geq p$ y $F_n^*(c_p^-)\leq p$ para cada $p \in (0,1)$.
+
+
+\textbf{Teorema de Glivenko-Cantelli}: Sea ${X_i}_{i=1}^\infty$ una sucesion de variables aleatorias independientes y con distribucion comun $F$. Si $F_n^*$ es la funcion de distribucion muestral asociada a la muestra aleatoria simple $(X_1, X_2,..., X_n)$ y $\Delta_n=\sup_{x\in\R} |F_n^*(x)-F(x)|$, entonces $\lim_{n\to\infty} \Delta_n = 0$, P-casi seguro.
+
+\subsection*{Comportamiento asintotico de los cuantiles muestrales}
+
+\textbf{Corolario del Teorema de Glivenko-Cantelli}: Sea $\{X_i\}_i^\infty$ una sucesion de variables aleatorisa independientes y con distribucion comun $F$, que tenga un unico cuantil de orden $p \in (0,1)$. Si $c_p(n)$ es el cuantil muestral de orden $p$ asociado a la muestra aleatoria simple $(X_1, ..., X_n)$
+
+\begin{lemma*}
+  Si $\{T_n\}^\infty_{n=1}$ es una sucesion de variables aleatorias tales que
+  \begin{equation*}
+    \sqrt{n} (T_n-\Theta)\xrightarrow{d} N(0, \sigma)
+  \end{equation*}
+  Y si $g$ es una funcion derivable de $\R$ en $\R$ tal que $g'(\Theta)\neq 0$, entonces
+  \begin{equation*}
+    \sqrt{n}(g(T_n)-g(\Theta)) \xrightarrow{d} N(0, \abs{g'(\Theta)} \sigma)
+  \end{equation*}
+\end{lemma*}
+
+\begin{theorem*}
+  Si $c_p(n)$ es el cuantil muestral de orden $p$ de una muestra aleatoria simple $(X_1,...,X_n)$ de una distribucion teorica $F$, que tiene una funcion de densidad continua $f$ y cuyo cuantil de orden $p$, $x_p$, es unico, se verifica que
+  \begin{equation*}
+    \sqrt{n}(c_p(n) - x_p) \xrightarrow{d} N(0, \dfrac{\sqrt{p(1-p)}}{f(x_p)})
+  \end{equation*}
+  (ver ejercicio 2.9)
+\end{theorem*}
+
+\subsection*{Comportamiento asintotico de los momentos muestrales}
+
+Cualquier momento muestral tiene, cuando n es grande, una distribucion muy concentrada alrededor del correspondiente momento poblacional.
+
+\begin{theorem*}
+  Dada una muestra aleatoria simple $(X_1, X_2, ..., X_n)$ de una poblacion con momentos finitos de orden $2k$, se verifica
+  \begin{equation*}
+    \sqrt{n}(a_k(n)-\alpha_k)\xrightarrow{d} N(0, \sqrt{\alpha_{2k}- \alpha_k^2})
+  \end{equation*}
+  (Si $k=1$, entonces $\overline{X}$ es aproximadamente $N(\mu, \dfrac{\sigma}{\sqrt{n}})$ cuando $n$ es grande. Ver ejercicio 2.10)
+
+  Ademas,
+  \begin{equation*}
+    [\sqrt{n}(a_1(n)-\alpha_1),..., \sqrt{n}(a_k(n)-\alpha_k]\xrightarrow{d} N_k(0, \Sigma)
+  \end{equation*}
+  Siendo $\Sigma_{jj}=\alpha_{2j}-\alpha_j^2$, $\Sigma_jl=\alpha_{j+l}-\alpha_j\alpha_l$ los terminos de la matriz de covarianzas de la distribucion normal k-dimensional limite.
+\end{theorem*}
+
+\begin{theorem*}(Momentos centrales)
+  Si $b_k(n)$ es el momento central de orden $k$ de una muestra aleatoria simple $(X_1, ..., X_n)$ de una poblacion con momentos finitos de orden $2_k$, se verifica
+  \begin{equation*}
+    \sqrt{n}(b_k(n)-\mu_k)\xrightarrow{d} N(0, \sqrt{\mu_{2k}-\mu_k^2-2k\mu_{k+1}\mu_{k-1}+k^2\mu^2_{k-1}\mu_2})
+  \end{equation*}
+
+  En particular, para la varianza muestral $s^2$, como $\mu_1=E[X-\mu]=0$, se obtiene
+  \begin{equation*}
+    \sqrt{n}(s^2-\sigma^2)\xrightarrow{d} N(0, \sqrt{\mu_4 - \sigma^4})
+  \end{equation*}
+\end{theorem*}
+
+\newpage
+
+\section{Distribuciones en el muestreo de poblaciones normales}
+
+\subsection*{Media y varianza muestrales}
+
+Como combinacion lineal de variables aleatorias independientes con distribucion normal, $\overline{X}$ tiene distribucion normal. Sus parametros son:
+
+\begin{equation*}
+  E[\overline{X}]=\dfrac{1}{n}\sum_{i=1}^nE[X_i]=E[X]=\mu
+\end{equation*}
+\begin{equation*}
+  V(\overline{X})=\dfrac{1}{n^2}\sum_{i=1}^nV(X_i)=V(X)=\dfrac{\sigma^2}{n}
+\end{equation*}
+Luego la distribucion en el muestreo de $X$ es $N(\mu, \dfrac{\sigma}{\sqrt{n}})$
+
+\subsection*{Distribucion $\chi^2$ de Pearson}
+Si $X$ tiene distribucion normal $N(0,1)$, entonces $X^2$ tiene distribucion gamma $\gamma(\dfrac{1}{2}, \dfrac{1}{2})$. Y si $X_1, ..., X_n$ son variables aleatorias independientes con distribucion $N(0,1)$, entonces $\sum_{i=1}^nX_i^2$ tiene distribucion gamma $\gamma(\dfrac{n}{2}, \dfrac{1}{2})$. Esta distribucion se denomina distribucion $chi^2$ de Pearson con $n$ grados de libertad.
+
+\textbf{Funcion de densidad de $\chi^2$}:
+\begin{equation*}
+  \dfrac{1}{2^{n/2}\Gamma(\dfrac{n}{2})}y^{\dfrac{n}{2}-1}e^{\dfrac{-y}{2}}
+\end{equation*}
+
+\textbf{Grados de libertad}: Las funciones de densidad y de distribucion dependen de un unico parametro $n$ cuya denominacion de "grados de libertad" hace referencia al numero de sumandos que aportan su variabilidad a la suma. En funcion de $n$ se expresan la media y varianza:
+
+\begin{equation*}
+  E[\sum_{i=1}^n X_i^2]=\sum_{i=1}^n E[X_i^2]=n
+\end{equation*}
+\begin{equation*}
+  V(\sum_{i=1}^n X_i^2)=\sum_{i=1}^n V(X_i^2)=2n
+\end{equation*}
+
+\textbf{Funcion de distribucion de $\chi^2$}:
+\begin{equation*}
+  F(x)=\dfrac{1}{2^{n/2}\Gamma(\dfrac{n}{2})}\int_0^x y^{\dfrac{n}{2}-1}e^{\dfrac{-y}{2}}
+\end{equation*}
+
+No admite una expresion explicita. Sus valores estan tabulados en la tabla 4.
+
+Si $n>30$, la distribucion $\chi^2$ se puede aproximar mediante una distribucion normal.
+\begin{equation*}
+  \dfrac{\sum_{i=1}^n X_i^2 - n}{\sqrt{2n}}\xrightarrow{d} N(0,1)
+\end{equation*}
+de forma que para $n$ grande, $\chi^2$ se aproxima a $N(n, \sqrt{2n})$.
+
+Existe una aproximacion mejor: Sea $Y$ una variable con distribucion $\chi^2$,
+\begin{equation*}
+  \sqrt{2Y} - \sqrt{2n-1} \xrightarrow{d} N(0,1)
+\end{equation*}
+
+\textbf{Teorema de Fisher}: Si $(X_1, ..., X_n)$ es una muestra aleatoria simple de una poblacion $N(\mu, \sigma)$, entonces $s^2$ y $\overline{X}$ son variables aleatorias independientes y la distribucion en el muestreo de $\dfrac{ns^2}{\sigma^2}$ es $\chi_{n-1}^2$ (mientras que $\overline{X}$ tiene distribucion $N(\mu, \dfrac{\sigma}{\sqrt{n}})$)
+
+\subsection*{Distribucion $t$ de Student}
+
+Saber que $\overline{X}$ tiene distribucion en el muestreo $N(\mu, \sigma/\sqrt{n})$ o equivalentemente $\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma}$ tiene distribucion $N(0,1)$ resulta de poca utilidad si la varianza poblacional $\sigma^2$ es desconocida. La idea de Student viene al considerar que $s^2$ y $\sigma^2$ tendran valores similares para muestras grandes.
+
+\textbf{Cuasivarianza muestral}: $S^2=\dfrac{ns^2}{n-1}$
+
+\textbf{Estadistico $t$ de Student}:
+\begin{equation*}
+  t = \sqrt{n-1}\dfrac{\overline{X} - \mu}{s} = \sqrt{n}\dfrac{\overline{X} - \mu}{S}
+\end{equation*}
+
+\textbf{Distribucion $t$ de Student con $n$ grados de libertad}: Si $(X_1,..., X_n)$ son variables aleatorias independientes y con distribucion $N(0, \sigma)$, la distribucion de
+\begin{equation*}
+  \dfrac{X}{\sqrt{\dfrac{1}{n} \sum_{i=1}^n X_i^2}}
+\end{equation*}
+de densidad
+\begin{equation*}
+  \dfrac{1}{\sqrt{n\pi}} \dfrac{\Gamma(\dfrac{n+1}{2})}{\Gamma(\dfrac{n}{2})} (1+\dfrac{t^2}{n})^{-(n+1)/2}
+\end{equation*}
+para $t \in \R$ se denomina distribucion $t$ de Student con $n$ grados de libertad.
+
+\textbf{Teorema de Student}: Si $(X_1, ..., X_n)$ es una muestra aleatoria simple de una poblacion $N(\mu, \sigma)$, el estadistico de Student:
+\begin{equation*}
+  t = \sqrt{n-1}\dfrac{\overline{X} - \mu}{s} = \sqrt{n}\dfrac{\overline{X} - \mu}{S}
+\end{equation*}
+tiene distribucion $t$ de Student con $n-1$ grados de libertad.
+
+\subsection*{Distribucion de la diferencia de medias muestrales}
+
+Sea $(X,Y)$ una variable aleatoria bidimensional. Puesto que trata de comparar ambas poblaciones $X$ e $Y$, y en primer lugar sus medias desconocidas $\mu_1$ y $\mu_2$, parece natural que el analisis este basado en sus dos medias muestrales $\overline{X}$ e $\overline{Y}$ y mas concretamente en su diferencia $\overline{X} - \overline{Y}$.
+
+\begin{enumerate}
+  \item \textbf{$\overline{X}- \overline{Y}$ siendo $X, Y$ independientes. $\mu_1, \mu_2$ desconocidas. $\sigma_1^2, \sigma_2^2$ conocidas}:
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{\sigma_1^2/n + \sigma_2^2/m}}
+        \end{equation*}
+        tiene distribucion $N(0,1)$
+  \item \textbf{$\overline{X}- \overline{Y}$ siendo $X, Y$ independientes. $\mu_1, \mu_2$ desconocidas. $\sigma_1^2, \sigma_2^2$ desconocidas (pero iguales)}:
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{\dfrac{(n-1)S_1^2 + (m-1)S_2^2}{n+m-2}} \sqrt{\dfrac{1}{n} + \dfrac{1}{m}}}
+        \end{equation*}
+        tiene distribucion $t_{m+n-2}$.
+
+        Si los tamanos muestrales no son muy pequenos $(n, m \geq 15)$:
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{S_1^2/n + S_2^2/m}}
+        \end{equation*}
+        sera aproximadamente $N(0,1)$
+
+        (Welch) Si los tamanos muestrales son muy pequenos $(n, m \leq 15)$:
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{S_1^2/n + S_2^2/m}}
+        \end{equation*}
+        tiene aproximadamente distribucion $t_f$, siendo $f$ el numero de grados de libertad, esto es, el entero mas proximo a
+        \begin{equation*}
+          \dfrac{(S_1^2/n + S_2^2/m)^2}{\dfrac{1}{n+1} (S_1^2/n)^2 + \dfrac{1}{m+1}(S_2^2/m)^2} - 2
+        \end{equation*}
+  \item \textbf{$\overline{X}- \overline{Y}$ siendo $X, Y$ no necesariamente independientes. $\mu_1, \mu_2$ desconocidas. $\sigma_1^2, \sigma_2^2, \sigma_{11}$ conocidas}:
+        \[    % <-- start math environment
+          \begin{pmatrix}
+            \sigma_1^2  & \sigma_{11} \\
+            \sigma_{11} & \sigma_2^2
+          \end{pmatrix}
+        \]    % <-- end of math environment
+        entonces
+        \begin{equation*}
+          \sqrt{n} \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{\sigma_1^2 + \sigma_2^2 - 2\sigma_{11}}}
+        \end{equation*}
+        tiene distribucion $N(0,1)$
+  \item \textbf{$\overline{X}- \overline{Y}$ siendo $X, Y$ no necesariamente independientes. $\mu_1, \mu_2$ desconocidas. $\sigma_1^2, \sigma_2^2, \sigma_{11}$ desconocidas}:
+        Por el teorema de Student
+        \begin{equation*}
+          \sqrt{n-1}\dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{s^*}
+        \end{equation*}
+        tiene distribucion $t_{n-1}$, donde $s^*$ es ahora la varianza muestral de la muestra $(X_i - Y_i)$, es decir $s^{*2}=\dfrac{1}{n}\sum_{i=1}^n(X_i-Y_i)^2 - (\overline{X} - \overline{Y})^2$.
+\end{enumerate}
+
+\subsection*{Distribucion del cociente de cuasivarianzas muestrales}
+
+El metodo para obtener informacion acerca de la relacion entre $\sigma_1^2$ y $\sigma_2^2$ esta basado en las cuasivarianzas muestrales $S_1^2$ y $S_2^2$. Pero en vez de considerar $S_1^2 - S_2^2$, conviene utilizar el estadistico $S_1^2/S^2_2$.
+
+\textbf{Distribucion $F$ de Snedecor}: Si $X_1, ..., X_n$, $Y_1, ..., Y_n$ son variables aleatorias independientes, con distribucion $N(0,\sigma)$ la distribucion de
+\begin{equation*}
+  \dfrac{1/n \sum_{i=1}^n X_i^2}{\sum_{i=1}^m Y_i^2}
+\end{equation*}
+se denomina distribucion $F$ de Snedecor con $n$ y $m$ grados de libertad y tiene densidad
+\begin{equation*}
+  \dfrac{\Gamma(\dfrac{n+m}{2})}{\Gamma(\dfrac{n}{2})\Gamma(\dfrac{m}{2})} (\dfrac{n}{m})^{n/2} t^{(n-2)/2} (1+\dfrac{n}{m}t)^{-(n+m)/2}
+\end{equation*}
+para $t \geq 0$
+
+Dicho de otra manera, $F_{n,m}$ es la distribucion del cociente de dos $\chi^2$ independientes, de $n$ y $m$ grados de libertad respectivamente, divididas cada una de ellas por sus grados de libertad.
+
+\textbf{Momento de orden $r$}:
+\begin{equation*}
+  \dfrac{\Gamma(\dfrac{n}{2}+r) \Gamma(\dfrac{m}{2} -r)}{\Gamma(\dfrac{n}{2}) \Gamma(\dfrac{m}{2})} (\dfrac{m}{n})^r
+\end{equation*}
+
+\begin{theorem*}
+  Si $S_1^2$ y $S_2^2$ son las cuasivarianzas de sendas muestras aleatorias simples, de dos poblaciones normales de varianzas $\sigma_1^2$ y $\sigma_2^2$ respectivamente, el estadistico
+  \begin{equation*}
+    U=\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}
+  \end{equation*}
+  tiene distribucion $F$ de Snedecor con $n-1$ y $m-1$ grados de libertad (ver ejercicio 3.4).
+\end{theorem*}
+
+\subsection*{Coeficiente de correlacion muestral}
+
+Dada una muestra aleatoria simple $((X_1, Y_1),..., (X_n, Y_n)$, se trata de comprobar si el coeficiente de correlacion teorico $\rho$ es cero y se verifica la independencia entre $X$ y $Y$.
+
+\textbf{Cuasicovarianza muestral}: $S_{11}=\dfrac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})(Y_1-\overline{Y})$
+
+\textbf{Coeficiente de correlacion muestral}: $R = \dfrac{S_{11}}{S_1S_2}$
+
+Para abordar este tipo de problemas, partimos de la hipotesis de que $\rho$ es cero.
+
+\begin{theorem*}
+  Si $R$ es el coeficiente de correlacion muestral de una distribucion normal bidimensional, con coeficiente de correlacion $\rho=0$,
+  \begin{equation*}
+    R^* = \sqrt{n-2}\dfrac{R}{\sqrt{1-R^2}}
+  \end{equation*}
+  tiene distribucion $t$ de Student con $n-2$ grados de libertad.
+\end{theorem*}
+
+
+\newpage
+
+\section{Intervalos de confianza}
+
+De una poblacion descrita por una variable aleatoria $X$, cuya distribucion teorica $F$ pertenece a una familia parametrica $\mathfrak{F} = \{ F_\theta | \theta \in \Theta \subset \R^2\}$ se considera una muestra aleatoria $(X_1, ..., X_n)$ con distribucion $P_\theta$. Sea $g(\theta)$ una funcion del parametro, con valores reales, y $T_1 \leq T_2$ dos estadisticos unidimensionales tales que
+\begin{equation*}
+  P_\theta \{T_1(X_1,..., X_n) \leq g(\theta) \leq T_2(X_1, ..., X_n) \} \geq 1 - \alpha
+\end{equation*}
+para cada $\theta \in \Theta$. Entonces, para cualquier muestra, el intervalo
+\begin{equation*}
+  [T_1(x_1,..., x_n), T_2(x_1,...,x_n)]
+\end{equation*}
+se denomina \textbf{intervalo de confianza} para $g(\theta)$, de \textbf{nivel de confianza} $1-\alpha$.
+
+\subsection*{Metodo de la cantidad pivotal}
+
+Supongamos que $T(X_1, ..., X_n;\theta)$ es una funcion real de la muestra y del parametro, cuya distribucion en el muestreo \textbf{no} depende de $\theta$. En tal caso, fijado cualquier nivel de confianza $1-\alpha$ entre 0 y 1, se pueden determinar constantes, $c_1$ y $c_2$ (que no seran unicas) tales que
+\begin{equation*}
+  P_\theta \{c_1 \leq T(X_1,..., X_n; \theta) \leq  c_2\} \geq 1 - \alpha
+\end{equation*}
+
+Si es posible despejar $g(\theta)$ en las desigualdades
+\begin{align*}
+  c_1 \leq T(X_1,..., X_n; \theta) &  & T(X_1,..., X_n; \theta) \leq c_2
+\end{align*}
+obtendremos sendos valores $T_1(X_1,..., X_n)$ y $T_2(X_1,..., X_n)$ tales que para cualquier valor $\theta \in \Theta$
+\begin{equation*}
+  P_\theta \{T_1(X_1,..., X_n; \theta) \leq  g(\theta \leq T(X_1,..., X_n; \theta))\} \geq 1 - \alpha
+\end{equation*}
+De manera que $[T_1(X_1,..., X_n; \theta), T_2(X_1,..., X_n; \theta)]$ sera un intervalo de confianza para $g(\theta)$, de nivel de confianza $1-\alpha$
+
+\textbf{Determinacion de un estadistico que permita llevar a cabo el metodo de la cantidad pivotal}: Si $(X_1,..., X_n)$ es una muestra aleatoria simple de una poblacion unidimensional cuya distribucion teorica pertenece a una familia $\mathfrak{F} = \{F_\theta : \theta \in \Theta \subset \R \}$ entonces el estadisitico
+\begin{equation*}
+  T(X_1,..., X_n; \theta)=-\sum_{i=1}^n log F_\theta (X_i)
+\end{equation*}
+tiene distribucion en el muestreo independiente de $\theta$. Para cualquier valor $\theta$, $-\log F(X_i)$ tiene distribucion exponencial de parametro 1. Luego $-\sum_{i=1}^n \log F(X_i)$ tiene distribucion gamma $\gamma(n, 1)$.
+
+\subsection*{Metodo de Neyman}
+
+En este caso, $T$ es cualquier estadistico unidimensional. Sea $L \in \R$ su recorrido y $(X_1, ..., X_n)$ una muestra aleatoria con distribucion $P_\theta$.
+
+Fijado un nivel de confianza $1-\alpha$, para cada $\theta \in \Theta$ se pueden determinar dos valores $c_1(\theta) < c_2(\theta)$ en $L$ tales que
+\begin{align*}
+  P_\theta \{T < c_1(\theta)\} \leq \alpha_1 &  & P_\theta \{T < c_2(\theta)\} \leq \alpha_2
+\end{align*}
+siendo $\alpha_1, \alpha_2 > 0$ y $\alpha_1 + \alpha_2 = \alpha$.
+
+Sera entonces, para cada $\theta$,
+\begin{equation*}
+  P_\theta \{ c_1(\theta) \leq T(X_1, ..., X_n) \leq c_2(\theta) \} \geq 1 - \alpha
+\end{equation*}
+
+Para cada valor $t$ del estadistico $T$:
+\begin{equation*}
+  P_\theta \{ \theta_1(T(X_1, ..., X_n)) \leq \theta \leq \theta_2(T(X_1, ..., X_n)) \} \geq 1 - \alpha
+\end{equation*}
+y por tanto $[\theta_1(T(X_1, ..., X_n)), \theta_1(T(X_1, ..., X_n))]$ es un intervalo de confianza para $\theta$ de nivel de confianza $1-\alpha$.
+
+\subsection*{Intervalos de confianza para los parametros de distribuciones normales}
+
+\begin{enumerate}
+  \item \textbf{Intervalo de confianza para la media si la varianza poblacional es conocida}: Puesto que $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ tiene distribucion en el muestreo $N(0,1)$, sera
+        \begin{equation*}
+          P_\mu \{ -z_{\alpha  2} < \dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}} < z_{\alpha / 2}\} = 1 - \alpha
+        \end{equation*}
+        de forma que $(\overline{x} - z_{\alpha/2} \dfrac{\sigma}{\sqrt{n}}, \overline{x} + z_{\alpha / 2} \dfrac{\sigma}{\sqrt{n}})$ es un intervalo de confianza para $\mu$ de nivel de confianza $1-\alpha$.
+  \item \textbf{Intervalo de confianza para la media si la varianza poblacional es desconocida}: Puesto que $\dfrac{\overline{X} - \mu}{S / \sqrt{n}}$ tiene distribucion en el muestreo $t_{n-1}$, sera
+        \begin{equation*}
+          P_\mu \{ -t_{n-1;\alpha/2} < \dfrac{\overline{X} - \mu}{S / \sqrt{n}} < t_{n-1;\alpha / 2}\} = 1 - \alpha
+        \end{equation*}
+        de forma que $(\overline{x} - t_{n-1;\alpha/2} \dfrac{S}{\sqrt{n}}, \overline{x} + t_{n-1;\alpha/2} \dfrac{S}{\sqrt{n}})$ es un intervalo de confianza para $\mu$ de nivel de confianza $1-\alpha$.
+  \item \textbf{Intervalo de confianza para $\sigma^2$ si la varianza poblacional es conocida}: Puesto que $\sum_{i=1}^n\dfrac{(X_i - \mu)^2}{\sigma^2}$ tiene distribucion en el muestreo $\chi^2$, sera
+        \begin{equation*}
+          P_\sigma \{ \chi^2_{n;1-\alpha/2} < \sum_{i=1}^n\dfrac{(X_i - \mu)^2}{\sigma^2} < \chi^2_{n;1-\alpha/2} \} = 1 - \alpha
+        \end{equation*}
+        de forma que $(\dfrac{1}{\chi^2_{n;\alpha/2}}\sum_{i=1}^n(x_i-\mu)^2, \dfrac{1}{\chi^2_{n;1-\alpha/2}}\sum_{i=1}^n(x_i-\mu)^2)$ es un intervalo de confianza para $\sigma^2$ de nivel de confianza $1-\alpha$.
+  \item \textbf{Intervalo de confianza para $\sigma^2$, si la media poblacional es desconocida}: Mediante la afirmacion del teorema de Fisher, puesto que $\sum_{i=1}^n \dfrac{(X_i - \overline{X})^2}{\sigma^2}=\dfrac{(n-1)S^2}{\sigma^2}$ tiene distribucion $\chi^2_{n-1}$, sera
+        \begin{equation*}
+          P_{\mu, \sigma} \{ \chi^2_{n-1;1-\alpha/2} \dfrac{(n-1)S^2}{\sigma^2} < \chi^2_{n-1;\alpha/2} \} = 1 - \alpha
+        \end{equation*}
+        de forma que $(\dfrac{(n-1)S^2}{\chi^2_{n-1;\alpha/2}}, \dfrac{(n-1)S^2}{\chi^2_{n-1;1-\alpha/2}})$ es un intervalo de confianza para $\sigma^2$  de nivel de confianza $1-\alpha$.
+
+  \item \textbf{Region de confianza para la media y varianza poblacional}: El teorema de Fisher, al proporcionar la distribucion conjunta de los estadisticos
+        \begin{align*}
+          \dfrac{\overline{X} - \mu}{\sigma/\sqrt{n}} &  & \dfrac{(n-1)S^2}{\sigma^2}
+        \end{align*}
+        permite construir una region de confianza simultaneamente para $\mu$ y $\sigma^2$. Como ambos estadisticos son independientes y
+        \begin{equation*}
+          P_{\mu, \sigma}\{ -z_{\alpha/2} < \dfrac{\overline{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}\} = 1-\alpha
+        \end{equation*}
+        \begin{equation*}
+          P_{\mu, \sigma} \{ \chi^2_{n-1;1-\beta/2} < \dfrac{(n-1)S^2}{\sigma^2} < \chi^2_{n-1;\beta/2}  \} = 1 - \beta
+        \end{equation*}
+        la region del espacio muestral
+        \begin{equation*}
+          \{ -z_{\alpha/2} < \dfrac{\overline{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}, \chi^2_{n-1;1-\beta/2} < \dfrac{(n-1)S^2}{\sigma^2} < \chi^2_{n-1;\beta/2} \}
+        \end{equation*}
+        tiene probabilidad $(1-\alpha)(1-\beta)$.
+
+  \item \textbf{Intervalo de confianza para la diferencia de medias con $\sigma_1$ y $\sigma_2$ conocidas}: Como
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{\sigma_1^2/n + \sigma_2^2/m}}
+        \end{equation*}
+        tiene distribucion en el muestreo $N(0,1)$, resulta directamente que
+        \begin{equation*}
+          (\overline{x} - \overline{y} - z_{\alpha/2}\sqrt{\dfrac{\sigma_1^2}{n} + \dfrac{\sigma_2^2}{m}}, \overline{x} - \overline{y} + z_{\alpha/2}\sqrt{\dfrac{\sigma_1^2}{n} + \dfrac{\sigma_2^2}{m}})
+        \end{equation*}
+        es un intervalo de confianza para $\mu_1-\mu_2$ de nivel de confianza $1-\alpha$.
+
+  \item \textbf{Intervalo de confianza para la diferencia de medias con varianzas desconocidas pero iguales}: El estadistico
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{\dfrac{ns_1^2 + ms_2^2}{n+m-2}} \sqrt{\dfrac{1}{n} + \dfrac{1}{m}}}
+        \end{equation*}
+        tiene distribucion en el muestreo $t_{n+m-2}$. De manera que el intervalo de extremos
+        \begin{equation*}
+          \overline{x} - \overline{y} \pm t_{n+m-2;\alpha/2} \sqrt{\dfrac{ns_1^2 + ms_2^2}{n+m-2}}\sqrt{\dfrac{1}{n} + \dfrac{1}{m}}
+        \end{equation*}
+        es un intervalo de confianza para $\mu_1-\mu_2$ de nivel de confianza $1-\alpha$.
+
+        Analogo resultado se obtiene con el estadistico
+        \begin{equation*}
+          \dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{\sqrt{S_1^2/n + S_2^2/m}}
+        \end{equation*}
+        utilizando la aproximacion de Welch en el caso en que $\sigma_1^2$ y $\sigma_2^2$ no pudiesen suponerse iguales y alguna de las muestras fuese de pequeno tamano. El intervalo de confianza de nivel $1-\alpha$ tendria entonces por extremos
+        \begin{equation*}
+          \overline{x}-\overline{y} \pm t_{f;\alpha/2} \sqrt{S_1^2/n + S^2_2/m}
+        \end{equation*}
+        siendo $f$ el entero mas proximo a
+        \begin{equation*}
+          \dfrac{(S_1^2/n + S_2^2/m)^2}{\dfrac{1}{n+1} (S_1^2/n)^2 + \dfrac{1}{m+1}(S_2^2/m)^2} - 2
+        \end{equation*}
+
+  \item \textbf{Intervalo de confianza para el cociente de varianzas poblacionales}: Puesto que $\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}$ tiene distribucion $F_{n-1, m-1}$ sera
+        \begin{equation*}
+          P \{ F_{n-1,m-1;1-\alpha/2} < \dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} < F_{n-1,m-1;\alpha/2} = 1- \alpha \}
+        \end{equation*}
+        y por tanto $\dfrac{S_1^2/S_2^2}{F_{n-1,m-1;\alpha/2}, \dfrac{S_1^2/S_2^2}{F_{n-1,m-1, 1-\alpha/2}}}$ es un intervalo de confianza para $\sigma_1^2/\sigma_2^2$ de nivel de confianza $1-\alpha$.
+
+  \item \textbf{Intervalo de confianza para la diferencia de medias de dos poblaciones normales no independientes}: Puesto que
+        \begin{equation*}
+          \sqrt{n-1}\dfrac{\overline{X}-\overline{Y} - (\mu_1-\mu_2)}{s^*}
+        \end{equation*}
+        tiene distribucion en el muestreo $t_{n-1}$, y
+        \begin{equation*}
+          (\overline{x}-\overline{y}-t_{n-1;\alpha/2} \dfrac{s^*}{\sqrt{n-1}}, \overline{x}-\overline{y}+t_{n-1;\alpha/2} \dfrac{s^*}{\sqrt{n-1}})
+        \end{equation*}
+        es un intervalo de confianza para $\mu_1-\mu_2$ de nivel de confianza $1-\alpha$ donde $s^*$ representa la varianza muestral de las diferencias $X_1-Y_i$.
+\end{enumerate}
+
+\subsection*{Intervalos de confianza basados en distribuciones asintoticas}
+
+Si disponemos de una sucesion $T_n$ de estadisticos, correspondientes a los sucesivos tamanos muestrales n, tales que $\dfrac{T_n-\theta}{\sigma_n(\theta)} \xrightarrow{d} N(0,1)$, donde $\theta$ representa el parametro que caracteriza la distribucion teorica y $\sigma_n(\theta)$ depende en general de $n$ y del parametro poblacional, podemos obtener intervalos de confianza aproximados para el parametro $\theta$. Si $n$ es suficientemente grande sera, para cada $\theta$
+\begin{equation*}
+  P_\theta \{ -z_{\alpha/2} < \dfrac{T_n-\theta}{\sigma_n(\theta)}<z_{\alpha/2} \} \approx 1-\alpha
+\end{equation*}
+de manera que despejando $\theta$, obtenemos un intervalo de confianza de nivel de confianza aproximado $1-\alpha$
+
+\newpage
+
+\section{Estimacion puntual}
+
+\textbf{Estimador}: Estadistico $T(X_1, ..., X_n)$ independiente del parametro $\theta$ cuyo valor se utiliza para obtener su estimacion puntual.
+
+\textbf{Funcion de perdida}: $L : \Theta \times \Theta \rightarrow \R$ cuyos valores indican el coste en que se incurre si se da como estimacion el valor $t$, cuando realmente el parametro que identifica la distribucion teorica vale $\theta$.
+
+\textbf{Ejemplos de funciones de perdida}:
+\begin{itemize}
+  \item $L_1(\theta, t) = \abs{\theta - t}$ mide directamente el error en la estimacion
+  \item $L_2(\theta, t) = (\theta - t)^2$, error cuadratico de estimacion
+  \item $L_3(\dfrac{\abs{\theta - t}}{\theta})$, error relativo en la estimacion
+  \item $L_4(\theta, t)= \begin{cases}
+            c \text{ si } \abs{\theta - t} > \epsilon \\
+            0 \text{ si } \abs{\theta - t} \leq \epsilon
+          \end{cases}$, que penaliza con un coste $c$ los errores mayores que $\epsilon$.
+\end{itemize}
+
+\textbf{Perdida media $R_T(\theta)$}: Mide el riesgo del estimador $T$. Es una funcion positiva de $\theta$
+\begin{equation*}
+  R_T(\theta)=E_\theta[L(\theta, T(X_1,..., X_n))]=\int_\R L(\theta, t)H_\theta(dt)= \int_\mathcal{X}L(\theta, T(X_1,..., X_n))F_\theta(dx_1) F_\theta(dx_2)...F_\theta(dx_n)
+\end{equation*}
+donde $H_\theta(t)$ representa la distribucion en el muestreo del estadistico $T$ correspondiente al valor $\theta$ del parametro.
+
+El concepto de riesgo proporciona un criterio para la comparacion de estimadores; de hecho, un estimador $T_1$ sera preferible a otro estimador $T_2$ si
+\begin{equation*}
+  R_{T_1}(\theta) \leq R_{T_2}(\theta) \text{ para cualquier } \theta \in \Theta \text{ y}
+\end{equation*}
+\begin{equation*}
+  R_{T_1}(\theta) < R_{T_2}(\theta) \text{ para algun } \theta \in \Theta
+\end{equation*}
+
+\textbf{Error cuadratico medio del estimador $T$}: Funcion de riesgo definida por: $ECM_t(\theta) = E_\theta[\abs{\theta-T}^2]$.
+
+\textbf{Estimadores admisibles}: Aquellos para los cuales no existe otro estimador preferible a el
+
+\textbf{Error cuadratico medio de $T$ como estimador de $g(\theta)$}: $E_\theta[\abs{g(\theta) - T(X_1,...,X_n)^2}]$
+
+\subsection*{Propiedades deseables de los estimadores}
+
+
+\begin{itemize}
+  \item \textbf{Estimadores insesgados}:
+
+        \textbf{Sesgo del estimador $T$ como estimador de $g(\theta)$}: Diferencia $b_T(\theta)=E_\theta[T]-g(\theta)$
+
+        \textbf{Estimador insesgado o centrado en $g(\theta)$}: Sesgo nulo, esto es, $b_T(\theta) = 0$, luego $E_\theta[T] = g(\theta)$ para cada $\theta \in \Theta$.
+
+  \item \textbf{Estimadores consistentes}: La consistencia de los estimadores hace referencia a su comportamiento cuando el tamano muestral $n$ crece hacia infinito.
+
+        Una sucesion $T_n$ de estimadores se denomina \textbf{consistente} para estimar una funcion $g(\theta)$ del parametro poblacional si cuando $n \to \infty$ se verifica $T_n \xrightarrow{P_\theta} g(\theta)$. O, lo que es lo mismo,
+        \begin{equation*}
+          P_\theta \{ \abs{T_n-g(\theta)} - \epsilon \rightarrow 0 \}
+        \end{equation*}
+        para todo $\epsilon > 0, \theta \in \Theta$.
+
+        La consistencia en media cuadratica significa que, para estimar $g(\theta)$, $ECM_{T_n}(\theta) \rightarrow 0$ para cualquier $\theta \in \Theta$; o bien $V_\theta(T_n)\rightarrow 0$ y $b_{T_n} \rightarrow 0$.
+        \newpage
+
+  \item \textbf{Estimadores invariantes}:
+        \begin{itemize}
+          \item \textbf{Estimador invariante por traslaciones}:
+                \begin{equation*}
+                  T(x_1+c, ..., x_n+c)=T(x_1,..., x_n) + c
+                \end{equation*}
+                para toda muestra $(x_1, ..., x_n)$ y cualquier $c \in \R$.
+
+                Requisitos:
+                \begin{itemize}
+                  \item $\Theta = \R$
+                  \item La familia de distribuciones continuas $F=\{F_\theta | \theta \in \Theta \}$ ha de ser invariante por traslaciones, i.e $F_\theta(x)=F_{\theta+c}(x+c)=F_0(x - \theta)$, lo cual indica que la variable aleatoria que describe la poblacion se puede escribir: $X=\theta + Z$ siendo $Z$ una variable aleatoria con distribucion fija $F_0$.
+                \end{itemize}
+
+                Ejemplos:
+                \begin{itemize}
+                  \item $X_{(1)} = min_{1\leq i\leq n}X_i$
+                  \item $\overline{X}=\dfrac{1}{n}\sum_{i=1}^n X_i$
+                  \item $\dfrac{1}{2}(X_{(1)} + X_{(2)})$
+                \end{itemize}
+
+                No son invariantes por traslaciones:
+                \begin{itemize}
+                  \item Media geometrica $(\prod_{i=1}^n X_i)^{1/n}$
+                  \item Media armonica $\dfrac{n}{\sum_{i=1}^n X_i^{-1}}$
+                \end{itemize}
+
+          \item \textbf{Estimador invariante por cambios de escala}:
+                \begin{equation*}
+                  T(bx_1,...,bx_n)=bT(x_1,...,x_n)
+                \end{equation*}
+                para toda muestra $(x_1, ..., x_n)$ y cualquier $b >0$.
+
+                Requisitos:
+                \begin{itemize}
+                  \item $\Theta = (0, \infty)$
+                  \item La familia de distribuciones continuas $F=\{F_\theta | \theta \in \Theta \}$ ha de ser invariante por cambios de escala, i.e $F_\theta(x)=F_{b\theta}(bx)=F_1(\dfrac{x}{\theta})$, lo cual indica que la variable aleatoria que describe la poblacion se puede escribir: $X=\theta Z$ siendo $Z$ una variable aleatoria con distribucion fija $F_1$.
+                \end{itemize}
+
+                Ejemplos:
+                \begin{itemize}
+                  \item $\overline{X}$
+                  \item $X_{(n)} = max_{1\leq i\leq n}X_i$
+                \end{itemize}
+
+                No son invariantes por traslaciones:
+                \begin{itemize}
+                  \item $log(\dfrac{1}{n} \sum_{i=1}^n e^{X_i})$
+                \end{itemize}
+        \end{itemize}
+        Bajo condiciones de invarianza, el critero del minimo riesgo es capaz de seleccionar un estimador invariante preferible a todos los demas, supeusto que la funcion de perdida se elige adecuadamente para no destruir la invarianza del problema.
+  \item \textbf{Estidisticos suficientes}: Dada una muestra aleatoria $(X_1, X_2,.. X_n)$ de una poblacion con distribucion teorica perteneciente a una familia parametrica $\{F_\theta | \theta \in \Theta \}$, un estadistico $T(X_1,..., X_n)$ se denomina suficiente si la distribucion de la muestra, condicionada por el valor del estadistico $T$, no depende de $\theta$.
+
+        No es necesario que las distribuciones $F_\theta$ sean discretas, ni que la muestra sea aleatoria simple.
+
+        Con poblaciones discretas, siempre se puede descomponer la funcion de probabilidad de la muestra en la forma:
+        \begin{equation*}
+          P_\theta \{ X_1 = x_1,..., X_n=x_n  \} = P_\theta\{ T=t \} P_\theta \{ X_1=x_1,..., X_n=x_n | T = t \}
+        \end{equation*}
+
+        \textbf{Teorema de factorizacion}:
+        Un estadistico $T(X_1,..., X_n)$ es suficiente si y solo si
+        \begin{equation*}
+          f_\theta(x_1,...,x_n)=g_\theta(T(x_1,...,x_n))h(x_1,...,x_n)
+        \end{equation*}
+        siendo $g\theta$ una funcion que solo dependen de $x_1,...,x_n$ a traves del valor $T(x_1,...,x_n)$ del estadistico y $h(x_1,...,x_n)$ una funcion que no depende de $\theta$
+
+        \textbf{Estadisticos suficientes minimales}: Es conveniente disponer de un estadistico suficiente de la menor dimension posible, para eliminar el maximo de informacion superflua.
+
+        Un estadistico $T$ se denomina minimal suficiente si, para cualquier otro estadistico suficiente $T'$, existe una funcion (medible) $\rho$ tal que $T=\rho(T')$.
+
+        La determinacion de estadisticos suficientes por aplicacion del teorema de factorizacion suele conducir a estadisticos minimales suficientes, aunque no siempre.
+
+        $T$ es un estadistico minimal suficiente si y solo si
+        \begin{equation*}
+          \begin{cases}
+            T(x_1,...,x_n)=T(x_1^{'},...,x_n^{'}) \text{ si } \dfrac{f_\theta(x_1,...,x_n)}{f_\theta (x_1^{'},...,x_n^{'})} \text{ no depende de } \theta \\
+            T(x_1,...,x_n) \neq T(x_1^{'},...,x_n^{'}) \text{ si } \dfrac{f_\theta(x_1,...,x_n)}{f_\theta (x_1^{'},...,x_n^{'})} \text{ depende de } \theta
+          \end{cases}
+        \end{equation*}
+\end{itemize}
+
+\subsection*{Criterios de seleccion de estimadores}
+
+\begin{itemize}
+  \item \textbf{Estimadores minimax}: Puesto que el riesgo $R_T(\theta)$ expresa la perdida esperada, con el estimador $T$, cuando el valor del parametro es $theta$, la manera de asegurar una perdida esperada pequena, cualquiera que sea $\theta$, consiste en controlar el $\max_{\theta \in \Theta} R_T(\theta)$ y preferir un estimador $T_1$ a otro $T_2$ si
+        \begin{equation*}
+          max_{\theta \in \Theta} R_{T_1}(\theta) < max_{\theta \in \Theta}R_{T_2}(\theta)
+        \end{equation*}
+        Sera optimo con este criterio cualquier estimador comparable que alcanzase el valor $min_T \max_{\theta \in \Theta}R_T(\theta)$. Consecuentemente, los estimadores $T*$ tales que
+        \begin{equation*}
+          max_{\theta \in \Theta} R_{T*}(\theta) = \min_T \max_{\theta \in \Theta}R_T(\theta)
+        \end{equation*}
+        se denominan estimadores minimax y por extension el criterio de comparar los estimadores por el maximo de su riesgo se denomina \textbf{criterio minimax}.
+
+        El criterio minimax no siempre conduce a estimadores centrados y tampoco puede asegurarse que de estimadores basados en un estadistico suficiente minimal. Por el criterio minimal un estimador con poco riesgo para casi todos los valores de $\theta$ pero un alto riesgo $R$ para algunos de ellos es desechado frente a un estimador de riesgo constante igual a $R-\epsilon$.
+  \item \textbf{Estimadores Bayes}: La utilizacion del criterio Bayes requiere comportarse como si el parametro $\theta$ fuese una variable aleatoria de la que se conoce su distribucion a priori, $\pi(\theta)$. El \textbf{riesgo de Bayes} de un estimador $T$ frente a la distribucion a priori $\pi$ es el promedio
+        \begin{equation*}
+          r_T(\pi) = \int_{\Theta} R_T(\theta) \pi(d\theta)
+        \end{equation*}
+        y un estimador $T_1$ es preferido a $T_2$ si $r_{T_1}(\pi)<r_{T_2}(\pi)$. Lo ideal es entonces encontrar un estimador $T*$ que proporcione el minimo riesgo Bayes, es decir, tal que $r_{T^*}(\pi)=inf_T r_T(\pi)$. En caso de existir, se denomina \textbf{estimador Bayes frente a la distribucion a priori $\pi$}.
+
+        Los elementos $F_\theta(x)$ de la familia parametrica de distribuciones teoricas pueden interpretarse como la distribucion de la variable poblacional $X$ condicionada por el valor $\theta$ del parametro aleatorio. Por consiguiente, puede considerarse la distribucion conjunta de $\theta$ y $X$; formada a partir de la distribucion marginal $\pi$ y de la distribucion condicionada $F_\theta(x)$.
+        \begin{equation*}
+          f(\theta, x) = \pi(\theta)f_\theta(x)
+        \end{equation*}
+        La densidad marginal de $(X_1, ..., X_n)$ sera entonces $f(x_1,...,x_n)=\int_\Theta f_\theta(x_1,...,x_n)\pi(\theta)d\theta$, y la distribucion de $\theta$ condicionada por $(X_1,...,X_n)$ tendra por densidad la llamada \textbf{distribucion a posteriori}:
+        \begin{equation*}
+          \pi(\theta \mid x_1,...,x_n) = \dfrac{\pi(\theta)f_\theta(x_1,...,x_n)}{\int_\Theta f_\theta(x_1,...,x_n) \pi(\theta) d\theta}
+        \end{equation*}
+        La distribucion a posteriori expresa la probabilidad de que se haya producido cada posible valor del parametro una vez se han realizado las observaciones de la poblacion.
+
+        La busqueda del estimador Bayes frente a la distribucion a priori $\pi$ se reduce a determinar para cada muestra $(x_1, ..., x_n)$ el valor que minimice
+        \begin{equation*}
+          \int_\Theta L(\theta, t) \pi(\theta \mid x_1,..., x_n) d\theta
+        \end{equation*}
+
+        El metodo Bayes no produce, en general, estimadores insesgados. En cambio, siempre da lugar a estimadores admisibles.
+
+        La distribucion a posteriori es funcion del estadistico minimal suficiente.
+
+        Si $T$ es el estimador Bayes, frente a una cierta distribucion a priori $\pi_0$ y su riesgo $R_T(\theta)$ es independiente de $\theta$, entonces $T$ es tambien el estimador minimax. Por tanto, el metodo Bayes sirve tambien como procedimiento para determinar el estimador minimax.
+\end{itemize}
+
+\end{document}
+
